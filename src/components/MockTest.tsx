@@ -25,7 +25,7 @@ export default function MockTest() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: todo,
+      body: JSON.stringify(todo),
     }).then((res) => {
       fetch('/todos')
         .then((res) => res.json())
@@ -43,7 +43,7 @@ export default function MockTest() {
 
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.text}</li>
+          <li key={todo.id}>{todo.name}</li>
         ))}
       </ul>
 

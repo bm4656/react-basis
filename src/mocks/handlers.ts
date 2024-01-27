@@ -1,13 +1,13 @@
-import { http, HttpResponse, StrictRequest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 export type Todo = {
   id: number;
-  text: string;
+  name?: string;
 };
 const todos: Todo[] = [
-  { id: 1, text: '할일1' },
-  { id: 2, text: '할일2' },
-  { id: 3, text: '할일2' },
+  { id: 1, name: '할일1' },
+  { id: 2, name: '할일2' },
+  { id: 3, name: '할일2' },
 ];
 
 export const handlers = [
@@ -23,8 +23,9 @@ export const handlers = [
 
   // 할일 추가
   http.post('/todos', async ({ request }) => {
-    const requestData = request as unknown as string;
-    const newTodo: Todo = { id: 4, text: requestData };
+    const requestData = await request.json();
+    const name = requestData?.toString();
+    const newTodo = { id: todos.length + 1, name };
     todos.push(newTodo);
     return HttpResponse.json(todos, { status: 201 });
   }),
